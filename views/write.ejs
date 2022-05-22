@@ -14,13 +14,18 @@
             비번 <input type="text" name="passWord">
             <button id="submit">적기</button>
         </form>
-        칸다채워라
+        칸다채워라<a href="/">main</a>
     </div>
-    <footer>문의 인스타 chosuyoung0413</footer>
-</body>
+    <button id="question" type="button" onclick="location.href='https://www.instagram.com/chosuyoung0413/' ">문의</button>
 <style>
+    #question{
+        border: 2px solid blue;
+        width: 100px;
+        height: 40px;
+    }
+
     html{
-        background-color: beige;
+        background-color: black;
     }
 
     input{
@@ -36,7 +41,7 @@
     div{
         text-align: center;
         border-radius: 10px;
-        background-color: antiquewhite;
+        background-color: skyblue;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -55,8 +60,8 @@
         margin: 10px;
     }
 
-    #submit ::hover{
-        background-color: aquamarine;
+    #submit:hover{
+        background-color: rgb(129, 206, 180);
     }
 </style>
 </html>

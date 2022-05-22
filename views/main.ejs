@@ -4,39 +4,69 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Diary</title>
 </head>
 <body>
-    <p id="title">[오늘 하루 한마디]<br>*디자인 다시 할거임</p>
-    <a href="/write">적으러가기</a>
-    <% for(var i = 0; i < Object.keys(data).length; i++){ %>
-        <div>
-            <h1><%= data[i]['name'] %></h1>
-            <p><%= data[i]['content'] %></p>
-            <!--<p><%= data[i]['pw'] %></p>-->
-        </div>
+    <p id="title">[memo]<br>메모하는곳</p>
+    <button id="gotoWrite" type="button" onclick="location.href='./write' ">적으러가기</button>
+    <% for(var i = 0; i < data['data'].length; i++){ %>
+        <memo id=<%= data['data'][i]['date'] %>>
+            <h1><%= data['data'][i]['name'] %></h1>
+            <p><%= data['data'][i]['content'] %></p>
+            <!--<p><%= data['data'][i]['pw'] %></p>-->
+            
+            <form action="/del" method="post">
+                <input id="inputPW" type="text" placeholder="비번" name="delete">
+                <button id="del">삭제</button>
+                <input id="getDate" name="getDate" value=<%= data['data'][i]['date'] %>>
+                <p><%= data['data'][i]['date'].substr(0,19) %></p>
+            </form>
+        </memo>
     <% } %>
-    <footer>문의 인스타 chosuyoung0413</footer>
+    <button type="button" onclick="location.href='https://www.instagram.com/chosuyoung0413/' ">문의</button>
 </body>
+
 <style>
-    html{
-        background-color: bisque;
+    #getDate{
+        display: none;
     }
 
-    div{
-        background-color: darkkhaki;
+    #inputPW{
+        width: 70px;
+        height: 20px;
+    }
+
+    #del{
+        width: 40px;
+        height: 25px;
+    }
+
+    html{
+        background-color: grey;
+    }
+
+    memo{
+        background-color: azure;
         border: none;
         width: fit-content;
         height: fit-content;
         margin: 5px;
         display: inline-block;
         padding: 5px;
-        border-radius: 20px;
+        border-radius: 10px;
     }
 
-    a{
-        font-size: 30px;
-        text-decoration: none;
+    button{
+        border: none;
+        width: 100px;
+        height: 40px;
+    }
+
+    #gotoWrite{
+        width: 100px;
+        height: 60px;
+        border-radius: 10px;
     }
 
     #title{

@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const fs = require('fs');
 const app = express();
 
@@ -17,11 +18,12 @@ app.get('/', (req, res) => {
   //console.log(db);
 });
 
-var db;
+var db = null;
 
 fs.readFile('./data/db.json', 'utf-8', (err, jsonFile)=>{
   db = JSON.parse(jsonFile);
-})
+});
+
 
 app.get('/main', (req, res) => {
   res.render('main.ejs', {data : db});
@@ -39,15 +41,30 @@ app.post('/write', async function(req, res){
     res.render('write.ejs');
     return;
   }
-  db[Object.keys(db).length] = {
-    name,
-    content,
-    pw
-  }
+  var ip = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+  var D = new Date();
+  var date = D.toISOString();
+  db['data'].push({name,content,pw,ip,date});
   fs.writeFile('./data/db.json', JSON.stringify(db), 'utf-8',function(err){
-    console.log('errrrr');
+    if(err) return console.log('errrrr:'+err);
   });
   console.log(db)
+  res.redirect('/main');
+});
+
+app.post('/del', async function(req, res){
+  var deletePW = req.body.getDate;
+  var dbIndex = db['data'].findIndex(obj => obj.date == deletePW);
+  if(db['data'][dbIndex]['pw']==req.body.delete){
+    db['data'].splice(dbIndex, 1);
+    fs.writeFile('./data/db.json', JSON.stringify(db), 'utf-8',function(err){
+      if(err) return console.log('errrrr:'+err);
+    });
+    console.log("일치");
+  }else{
+    console.log('불일치');
+  }
+  console.log(deletePW, dbIndex);
   res.redirect('/main');
 });
 
