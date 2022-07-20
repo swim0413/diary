@@ -5,8 +5,8 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const app = express();
 
-const PORT = 5000;
-const hostName = '127.0.0.1';
+const PORT = 413;
+const hostName = '192.168.0.100';
 
 app.set('view engine', 'ejs');
 app.use(express.static('views'));
@@ -41,7 +41,7 @@ app.post('/write', async function(req, res){
     res.render('write.ejs');
     return;
   }
-  var ip = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+  var ip = req.headers['cf-connecting-ip'] || req.ip;
   var D = new Date();
   var date = D.toISOString();
   db['data'].push({name,content,pw,ip,date});

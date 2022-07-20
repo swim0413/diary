@@ -8,19 +8,20 @@
     <title>Diary</title>
 </head>
 <body>
-    <p id="title">[memo]<br>메모하는곳</p>
+    <p id="title">[memo]메모하는곳</p>
     <button id="gotoWrite" type="button" onclick="location.href='./write' ">적으러가기</button>
     <% for(var i = 0; i < data['data'].length; i++){ %>
         <memo id=<%= data['data'][i]['date'] %>>
-            <h1><%= data['data'][i]['name'] %></h1>
-            <p><%= data['data'][i]['content'] %></p>
+            <h1 id="memo_title"><%= data['data'][i]['name'] %><img id="memo_pic" src="./pics/asdf.png"></h1>
+            
+            <p id="memo_date"><%= data['data'][i]['content'] %></p>
             <!--<p><%= data['data'][i]['pw'] %></p>-->
             
             <form action="/del" method="post">
                 <input id="inputPW" type="text" placeholder="비번" name="delete">
                 <button id="del">삭제</button>
                 <input id="getDate" name="getDate" value=<%= data['data'][i]['date'] %>>
-                <p><%= data['data'][i]['date'].substr(0,19) %></p>
+                <p><%= data['data'][i]['date'].substr(0,10) %></p>
             </form>
         </memo>
     <% } %>
@@ -28,6 +29,10 @@
 </body>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+    html{
+        font-family: 'Jua', sans-serif;
+    }
     #getDate{
         display: none;
     }
@@ -43,18 +48,34 @@
     }
 
     html{
-        background-color: grey;
+        background-color: #FFCAF8;
     }
 
     memo{
-        background-color: azure;
+        background-color: #9CE8EE;
         border: none;
         width: fit-content;
         height: fit-content;
         margin: 5px;
         display: inline-block;
-        padding: 5px;
+        padding: 4px;
         border-radius: 10px;
+    }
+
+    #memo_title, #memo_pic{
+        display: inline;
+    }
+
+    #memo_pic{
+        width: 30px;
+        height: 30px;
+        padding: auto;
+        float: right;
+        padding: 10px;
+    }
+
+    #memo_date{
+        font-size: small;
     }
 
     button{
@@ -71,6 +92,11 @@
 
     #title{
         font-size: 20px;
+    }
+
+    #gotoWrite, #title{
+        position: relative;
+        display: inline
     }
 </style>
 </html>
