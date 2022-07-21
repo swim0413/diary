@@ -8,10 +8,12 @@
 </head>
 <body>
     <div>
-        <form action="/write" method="post">
+        <form action="/write" method="post" enctype="multipart/form-data">
             이름 <input type="text" name="name">
             내용 <input type="text" name="content">
             비번 <input type="text" name="passWord">
+            <label for="img"></label>
+            <input type="file" id="img" name="img", accept="image/*">
             <button id="submit">적기</button>
         </form>
         칸다채워라<a href="/">main</a>

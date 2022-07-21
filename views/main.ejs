@@ -12,7 +12,7 @@
     <button id="gotoWrite" type="button" onclick="location.href='./write' ">적으러가기</button>
     <% for(var i = 0; i < data['data'].length; i++){ %>
         <memo id=<%= data['data'][i]['date'] %>>
-            <h1 id="memo_title"><%= data['data'][i]['name'] %><img id="memo_pic" src="./pics/asdf.png"></h1>
+            <h1 id="memo_title"><%= data['data'][i]['name'] %><img id="memo_pic" src="./pics/<%= data['data'][i]['img'] %>"></h1>
             
             <p id="memo_date"><%= data['data'][i]['content'] %></p>
             <!--<p><%= data['data'][i]['pw'] %></p>-->
