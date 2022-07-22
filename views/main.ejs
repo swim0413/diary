@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>Diary</title>
+    <title>swim-memo</title>
 </head>
 <body>
     <p id="title">[memo]메모하는곳</p>
     <button id="gotoWrite" type="button" onclick="location.href='./write' ">적으러가기</button>
     <% for(var i = 0; i < data['data'].length; i++){ %>
         <memo id=<%= data['data'][i]['date'] %>>
-            <h1 id="memo_title"><%= data['data'][i]['name'] %><img id="memo_pic" src="./pics/<%= data['data'][i]['img'] %>"></h1>
+            <h1 id="memo_title"><%= data['data'][i]['name'] %><img onclick="location.href='/pic/<%= data['data'][i]['img'] %>'" id="memo_pic" src="./pics/<%= data['data'][i]['img'] %>"></h1>
             
             <p id="memo_date"><%= data['data'][i]['content'] %></p>
             <!--<p><%= data['data'][i]['pw'] %></p>-->

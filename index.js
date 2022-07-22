@@ -44,13 +44,14 @@ app.post('/write', upload.single('img'), async function(req, res){
   let pw = req.body.passWord;
   let img = req.file? req.file: null;
   if(name == '' || content == '' || pw == ''){
+    if(img){fs.unlinkSync("./views/pics/"+img.filename);}
     res.render('write.ejs');
     return;
   }
   let ip = req.headers['cf-connecting-ip'] || req.ip;
   let D = new Date();
   let date = D.toISOString();
-  db['data'].push({name,content,pw,ip,date, img:img?img.filename:"null.png"});
+  db['data'].push({name,content,pw,ip,date, img:img?img.filename:"private/null.png"});
   fs.writeFile('./data/db.json', JSON.stringify(db), 'utf-8',function(err){
     if(err) return console.log('errrrr:'+err);
   });
@@ -62,7 +63,17 @@ app.post('/del', async function(req, res){
   let deletePW = req.body.getDate;
   let dbIndex = db['data'].findIndex(obj => obj.date == deletePW);
   if(db['data'][dbIndex]['pw']==req.body.delete){
-    db['data'].splice(dbIndex, 1);
+    if(db['data'][dbIndex]['img']=="private/null.png"){
+      db['data'].splice(dbIndex, 1);
+    }else{
+      try{
+        fs.unlinkSync("./views/pics/"+db['data'][dbIndex]['img']);
+      }catch(e){
+        console.log(e);
+      }
+      db['data'].splice(dbIndex, 1);
+    }
+    //db['data'].splice(dbIndex, 1);
     fs.writeFile('./data/db.json', JSON.stringify(db), 'utf-8',function(err){
       if(err) return console.log('errrrr:'+err);
     });
@@ -74,8 +85,13 @@ app.post('/del', async function(req, res){
   res.redirect('/main');
 });
 
-app.get('/pics/:name', (req, res) => {
-  res.send('<img src="./views/pics/`${req.params.name}`">');
+app.get('/pic/:name', (req, res) => {
+  if(req.params.name.includes('private/null.png')){
+    res.redirect('./views/pics/private/null.png');
+  }else{
+    res.render('pic.ejs', {data : req.params.name});
+  }
+  
 });
 
 app.listen(PORT, hostName, () => {
